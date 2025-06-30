@@ -42,7 +42,7 @@ export default function Header() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/cart/${user._id}`);
+        const res = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/auth/cart/${user._id}`);
    
    
         setCartCount(res.data.cartItems.length)

@@ -23,7 +23,7 @@ export default function Productlist() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/products`,{
+      const res = await axios.get("https://e-commerce-backend-tsx8.onrender.com/api/auth/products",{
   withCredentials: true
 });
      console.log(res);
