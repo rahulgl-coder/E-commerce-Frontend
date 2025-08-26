@@ -22,7 +22,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: parseInt(process.env.PORT) || 5173,
     allowedHosts: [
-      'https://e-commerce-frontend-1-7tv7.onrender.com',
+      'e-commerce-frontend-1-7tv7.onrender.com',
       'localhost' 
     ]
   }
