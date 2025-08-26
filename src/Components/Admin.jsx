@@ -35,17 +35,22 @@ export default function AdminDashboard() {
    
 
     if (!token) return;
-
+      console.log("hello");
+      
   
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
+             console.log(user);
   
-        const res = await axios.get('http://localhost:5000/api/admin/products', {
+        const res = await axios.get('https://e-commerce-backend-tsx8.onrender.com/api/admin/products', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
+   
+        
   
         const products = res?.data?.product || [];
         setProducts(products);
@@ -85,7 +90,9 @@ export default function AdminDashboard() {
     const { name, type, checked, files, value } = e.target;
   
     if (type === 'file') {
-       setImage(files[0])
+      const file=files[0]
+       setImage(file)
+      
     } else {
       setForm({
         ...form,
@@ -102,10 +109,12 @@ export default function AdminDashboard() {
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.price || !form.Quantity || form.image){
-      console.log(form.image);
+    if (!form.name || !form.price || !form.Quantity || !image){
+    
+   log(image)
+
       
-      showNotification('Please fill all required fields', 'error');
+      showNotification('Please fill all requireds fields', 'error');
       return;
     }
 
@@ -114,7 +123,7 @@ export default function AdminDashboard() {
       let response;
       
       if (editingProduct) {
-        response = await axios.put(`http://localhost:5000/api/admin/edit/${editingProduct._id}`,form, {
+        response = await axios.put(`https://e-commerce-backend-tsx8.onrender.com/api/admin/edit/${editingProduct._id}`,form, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -131,7 +140,7 @@ export default function AdminDashboard() {
 
         console.log(data);
         
-        response = await axios.post('http://localhost:5000/api/admin/add', data,{
+        response = await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/admin/add', data,{
           headers: {},
         }); 
         setProducts([...products, response.data]);
@@ -163,7 +172,7 @@ export default function AdminDashboard() {
   const handleRemove = async (id) => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/admin/delete/${id}`,{
+      await axios.delete(`https://e-commerce-backend-tsx8.onrender.com/api/admin/delete/${id}`,{
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -184,7 +193,7 @@ export default function AdminDashboard() {
     setIsLoading(true);
     try {
       await axios.patch(
-        `http://localhost:5000/api/admin/block/${id}`,
+        `https://e-commerce-backend-tsx8.onrender.com/api/admin/block/${id}`,
         { blocked: !currentStatus },
         {
           headers: {

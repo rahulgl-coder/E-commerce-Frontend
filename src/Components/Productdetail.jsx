@@ -25,7 +25,7 @@ export default function ProductDetail() {
     } else {
       const fetchSingleProduct = async () => {
         try {
-          const res = await axios.get(`http://localhost:5000/api/auth/product/${id}`);
+          const res = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/auth/product/${id}`);
           setProduct(res.data.product);
         } catch (err) {
           console.error('Error fetching product:', err);
@@ -45,7 +45,7 @@ export default function ProductDetail() {
     }
 
     try {
-    await axios.post('http://localhost:5000/api/auth/cart', {
+    await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/auth/cart', {
         userId: user._id,
         productId: product._id,
         quantity: 1,

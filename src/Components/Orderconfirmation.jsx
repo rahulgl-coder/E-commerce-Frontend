@@ -43,8 +43,8 @@ export default function OrderConfirmationPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cartRes = await axios.get(`http://localhost:5000/api/auth/cart/${user._id}`);
-        const addressRes = await axios.get(`http://localhost:5000/api/auth/address/${user._id}`);
+        const cartRes = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/auth/cart/${user._id}`);
+        const addressRes = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/auth/address/${user._id}`);
         setCartItems(cartRes.data.cartItems);
         setAddresses(addressRes.data.addresses);
         setLoading(false);
@@ -83,7 +83,7 @@ export default function OrderConfirmationPage() {
     if (!validateAddress()) return;
 
     try {
-      const res = await axios.post(`http://localhost:5000/api/auth/address`, {
+      const res = await axios.post(`https://e-commerce-backend-tsx8.onrender.com/api/auth/address`, {
         ...newAddress,
         userId: user._id
       });
@@ -147,7 +147,7 @@ export default function OrderConfirmationPage() {
     const totalAmount = total;
   
 
-    const orderResult = await axios.post("http://localhost:5000/api/payment/create-order", {
+    const orderResult = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/payment/create-order", {
       amount: totalAmount,
     });
   
@@ -161,14 +161,14 @@ export default function OrderConfirmationPage() {
       handler: async function (response) {
         // Payment success, place order
         try {
-          await axios.post("http://localhost:5000/api/order/addorder", {
+          await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/order/addorder", {
             userId: user._id,
             cartItems,
             address: addressToUse,
             totalAmount,
             paymentId: response.razorpay_payment_id,
           });
-          await axios.delete(`http://localhost:5000/api/order/deletecart/${user._id}`);
+          await axios.delete(`https://e-commerce-backend-tsx8.onrender.com/api/order/deletecart/${user._id}`);
           toast.success("Payment successful & order placed!");
           navigate("/profile");
         } catch (err) {

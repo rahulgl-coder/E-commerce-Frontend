@@ -117,12 +117,7 @@ function App() {
 
         <Route
           path="/dashboard"
-          element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          }
-        />
+          element={<AdminDashboard /> }/>
 
         <Route
           path="/cart"

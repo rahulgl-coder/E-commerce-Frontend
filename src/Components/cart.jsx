@@ -23,7 +23,7 @@ export default function CartPage() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/auth/cart/${user._id}`);
+        const res = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/auth/cart/${user._id}`);
         setCartItems(res.data.cartItems);
         setLoading(false);
       } catch (err) {
@@ -37,7 +37,7 @@ export default function CartPage() {
 
   const handleRemove = async (cartItemId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/auth/cart/${cartItemId}`);
+      await axios.delete(`https://e-commerce-backend-tsx8.onrender.com/api/auth/cart/${cartItemId}`);
       toast.success("Product removed successfully")
       setCartItems(prev => prev.filter(item => item._id !== cartItemId));
     } catch (err) {

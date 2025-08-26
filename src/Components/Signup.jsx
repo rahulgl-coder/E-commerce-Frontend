@@ -129,7 +129,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", formData);
+      const res = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/signup", formData);
       setapproved(res.data.user)
       console.log(approved);
       
@@ -148,7 +148,7 @@ export default function Signup() {
     setLoading(true)
        try {
          
-        await axios.post("http://localhost:5000/api/auth/otp-verification",{otp,user:approved})
+        await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/otp-verification",{otp,user:approved})
         showModal(false)
         toast.success("Otp Verified")
         setOtp("")
@@ -170,7 +170,7 @@ export default function Signup() {
     
       
 
-      const res = await axios.post("http://localhost:5000/api/auth/google-login", {
+      const res = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/google-login", {
         token: credentialResponse.credential,
       });
 
@@ -186,7 +186,7 @@ export default function Signup() {
   };
   const handleResendOtp = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/resend-otp', { email: approved.email,purpose:"signup" });
+      await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/auth/resend-otp', { email: approved.email,purpose:"signup" });
       toast.success('OTP resent successfully!');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to resend OTP'); 

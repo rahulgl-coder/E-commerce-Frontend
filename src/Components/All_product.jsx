@@ -25,7 +25,7 @@ export default function AllProductsPage() {
 
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/products', {
+        const res = await axios.get('https://e-commerce-backend-tsx8.onrender.com/api/auth/products', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -57,7 +57,7 @@ export default function AllProductsPage() {
 
     try {
 
-      await axios.post('http://localhost:5000/api/auth/cart', {
+      await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/auth/cart', {
         userId: user._id,
         productId: product._id,
         quantity: 1,

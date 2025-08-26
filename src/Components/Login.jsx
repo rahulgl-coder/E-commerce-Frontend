@@ -52,7 +52,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+      const res = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/login", formData);
       const user = res.data.user;
       setSuccess(true);
 
@@ -83,7 +83,7 @@ export default function Login() {
 
      
       
-      const res = await axios.post("http://localhost:5000/api/auth/forgot-password", { email: resetEmail });
+      const res = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/forgot-password", { email: resetEmail });
      toast.success(res.data.message || "Reset otp has send to your mail!");
       
       setShowModal(false);
@@ -103,7 +103,7 @@ export default function Login() {
 
   const handleResendOtp = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/resend-otp', { email: approved.email,purpose:"forgot_password" });
+      await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/auth/resend-otp', { email: approved.email,purpose:"forgot_password" });
       toast.success('OTP resent successfully!');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to resend OTP'); 
@@ -112,7 +112,7 @@ export default function Login() {
 
   const handleOtp=async ()=>{
     try {
-      await axios.post('http://localhost:5000/api/auth/otp-verification', { user: approved,otp:otp });
+      await axios.post('https://e-commerce-backend-tsx8.onrender.com/api/auth/otp-verification', { user: approved,otp:otp });
       toast.success('OTP verification succesfull');
       navigate(`/reset_password/${approved._id}`)
     } catch (error) {

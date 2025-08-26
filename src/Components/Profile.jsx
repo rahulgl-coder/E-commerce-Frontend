@@ -23,7 +23,7 @@ export default function ProfilePage() {
     const fetchOrders = async () => {
       if (user?._id) {
         try {
-          const res = await axios.get(`http://localhost:5000/api/order/getorder/${user._id}`);
+          const res = await axios.get(`https://e-commerce-backend-tsx8.onrender.com/api/order/getorder/${user._id}`);
           setOrders(res.data);
         } catch (err) {
           console.error("Error fetching orders", err);

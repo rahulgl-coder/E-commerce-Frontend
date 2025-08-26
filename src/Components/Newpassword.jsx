@@ -39,7 +39,7 @@ export default function Resetpassword() {
           setLoading(true);
       
           try {
-            const res = await axios.put(`http://localhost:5000/api/auth/reset-password/${id}`, {password:formData.password});
+            const res = await axios.put(`https://e-commerce-backend-tsx8.onrender.com/api/auth/reset-password/${id}`, {password:formData.password});
             
             toast.success("Password Changed")
             navigate("/login")
