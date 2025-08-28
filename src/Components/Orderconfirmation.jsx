@@ -131,35 +131,106 @@ export default function OrderConfirmationPage() {
   // };
 
   const total = cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
-  const handlePlaceOrder = async () => {
-    if (!selectedAddressId) {
-      setErrors({ general: "Please select or add an address." });
-      return;
-    }
+  // const handlePlaceOrder = async () => {
+  //   if (!selectedAddressId) {
+  //     setErrors({ general: "Please select or add an address." });
+  //     return;
+  //   }
   
-    const res = await loadRazorpayScript();
-    if (!res) {
-      toast.error("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
+  //   const res = await loadRazorpayScript();
+  //   if (!res) {
+  //     toast.error("Razorpay SDK failed to load. Are you online?");
+  //     return;
+  //   }
   
-    const addressToUse = addresses.find((a) => a._id === selectedAddressId);
-    const totalAmount = total;
+  //   const addressToUse = addresses.find((a) => a._id === selectedAddressId);
+  //   const totalAmount = total;
   
 
-    const orderResult = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/payment/create-order", {
-      amount: totalAmount,
-    });
+  //   const orderResult = await axios.post("http://localhost:5000/api/payment/create-order", {
+  //     amount: totalAmount,
+  //   });
+  //   console.log(orderResult);
+    
   
+  //   const options = {
+  //     key: import.meta.env.VITE_RAZOR_KEY,
+  //     amount: orderResult.data.amount,
+  //     currency: orderResult.data.currency,
+  //     name: "My eCommerce Site",
+  //     description: "Order Payment",
+  //     order_id: orderResult.data.id,
+  //     handler: async function (response) {
+  //       // Payment success, place order
+  //       try {
+  //         await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/order/addorder", {
+  //           userId: user._id,
+  //           cartItems,
+  //           address: addressToUse,
+  //           totalAmount,
+  //           paymentId: response.razorpay_payment_id,
+  //         });
+  //         await axios.delete(`https://e-commerce-backend-tsx8.onrender.com/api/order/deletecart/${user._id}`);
+  //         toast.success("Payment successful & order placed!");
+  //         navigate("/profile");
+  //       } catch (err) {
+  //         console.error(err);
+  //         toast.error("Order failed after payment");
+  //       }
+  //     },
+  //     prefill: {
+  //       name: user.name,
+  //       email: user.email,
+  //     },
+  //     theme: {
+  //       color: "#3399cc",
+  //     },
+  //   };
+  
+  //   const paymentObject = new window.Razorpay(options);
+  //   paymentObject.open();
+  // };
+  
+  
+const handlePlaceOrder = async () => {
+  if (!selectedAddressId) {
+    setErrors({ general: "Please select or add an address." });
+    toast.error("Select or Add an address below")
+    return;
+  }
+
+  const res = await loadRazorpayScript();
+  if (!res) {
+    toast.error("Razorpay SDK failed to load. Are you online?");
+    return;
+  }
+
+
+  try {
+    const addressToUse = addresses.find((a) => a._id === selectedAddressId);
+    const totalAmount = total;
+
+    
+    const { data: order } = await axios.post(
+      "https://e-commerce-backend-tsx8.onrender.com/api/payment/create-order",
+      { amount: totalAmount }
+    );
+console.log(order);
+
+    if (!order.id) {
+      toast.error("Failed to create order with Razorpay");
+      return;
+    }
+
+
     const options = {
       key: import.meta.env.VITE_RAZOR_KEY,
-      amount: orderResult.data.amount,
-      currency: orderResult.data.currency,
+      amount: order.amount,
+      currency: order.currency,
       name: "My eCommerce Site",
       description: "Order Payment",
-      order_id: orderResult.data.id,
+      order_id: order.id,
       handler: async function (response) {
-        // Payment success, place order
         try {
           await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/order/addorder", {
             userId: user._id,
@@ -168,7 +239,11 @@ export default function OrderConfirmationPage() {
             totalAmount,
             paymentId: response.razorpay_payment_id,
           });
-          await axios.delete(`https://e-commerce-backend-tsx8.onrender.com/api/order/deletecart/${user._id}`);
+
+          await axios.delete(
+            `https://e-commerce-backend-tsx8.onrender.com/api/order/deletecart/${user._id}`
+          );
+
           toast.success("Payment successful & order placed!");
           navigate("/profile");
         } catch (err) {
@@ -180,16 +255,24 @@ export default function OrderConfirmationPage() {
         name: user.name,
         email: user.email,
       },
-      theme: {
-        color: "#3399cc",
-      },
+      theme: { color: "#3399cc" },
     };
-  
+
+
     const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
-  };
-  
-  
+
+    // ✅ Wrap in try–catch
+    try {
+      paymentObject.open();
+    } catch (err) {
+      console.error("Razorpay open error:", err);
+      toast.error("Unable to open Razorpay checkout");
+    }
+  } catch (err) {
+    console.error("Payment setup error:", err.response?.data || err.message);
+    toast.error("Failed to initiate payment");
+  }
+};
 
   
 

@@ -128,14 +128,17 @@ export default function Signup() {
     if (!validate()) return;
     setLoading(true);
 
+
     try {
       const res = await axios.post("https://e-commerce-backend-tsx8.onrender.com/api/auth/signup", formData);
       setapproved(res.data.user)
-      console.log(approved);
+      console.log(res);
       
        showModal(true)
    
     } catch (err) {
+      console.log(err);
+      
       toast.error(err.response?.data?.message || 'Signup failed');
     }
     finally {
